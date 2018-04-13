@@ -15,5 +15,5 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 ## Nagios/Icinga2
 
 * [check_purefa_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_hw.py) Simple plugin for monitoring Pure Storage FlashArray hardware components.
-* [check_purefa_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_occpy.py) Simple plugin for monitoring Pure Storage FlashArray global/per volume space occupancy.
-* [check_purefa_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_perf.py) Simple plugin for monitoring Pure Storage FlashArray performance metrics (per array/per volume).
+* [check_purefa_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_occpy.py) Simple plugin for monitoring Pure Storage FlashArray space occupancy (global/per volume).
+* [check_purefa_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_perf.py) Simple plugin for monitoring Pure Storage FlashArray performance metrics (global/per volume).
