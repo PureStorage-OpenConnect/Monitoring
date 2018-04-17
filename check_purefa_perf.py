@@ -10,7 +10,7 @@
 #
 ## Installation
 #
-# The scripo should be copied to the Nagios plugins directory on the machine hosting the Nagios server or the NRPE
+# The script should be copied to the Nagios plugins directory on the machine hosting the Nagios server or the NRPE
 # for example the /usr/lib/nagios/plugins folder.
 # Change the execution rights of the program to allow the execution to 'all' (usually chmod 0755).
 #
