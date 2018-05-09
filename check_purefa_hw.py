@@ -31,7 +31,7 @@ __status__ = "Production"
 
    Nagios plugin to retrieve the current status of hardware components from a Pure Storage FlashArray.
    Hardware status indicators are collected from the target FA using the REST call.
-   The plugin has threew mandatory arguments:  'endpoint', which specifies the target FA, 'apitoken', which
+   The plugin has three mandatory arguments:  'endpoint', which specifies the target FA, 'apitoken', which
    specifies the autentication token for the REST call session and 'component', that is the name of the
    hardware component to be monitored. The component must be specified using the internal naming schema of
    the Pure FlashArray: i.e CH0 for the main chassis, CH1 for the secondary chassis (shelf 1), CT0 for controller 0,i
