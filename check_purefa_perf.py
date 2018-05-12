@@ -32,10 +32,10 @@ __status__ = "Production"
 
    Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashArray.
    Bandwidth counters (read/write), IOPs counters (read/write) and latency (read/write) are collected from the
+   target FA using the REST call.
    The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
    specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
    be used to check a specific named volume.
-   target FA using the REST call.
    The plugin accepts multiple warning and critical threshold parameters in a positional fashion:
       1st threshold refers to write latency
       2nd threshold refers to read latency
