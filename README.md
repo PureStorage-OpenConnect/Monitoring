@@ -30,8 +30,9 @@ Plugins depends on
 
 The two modules can be easily installed via pip
 
->pip install nagiosplugin
->pip install purestorage
+pip install nagiosplugin
+
+pip install purestorage
 
 ### Usage
 
@@ -76,8 +77,10 @@ Hardware status indicators are collected from the target FA using the REST call.
  
 ###### Example
 
->check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283
->PURE_FA_OCCUPANCY OK - FA occupancy is 66% | 'FA occupancy'=66.0%;;;0;100
+check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283
+
+PURE_FA_OCCUPANCY OK - FA occupancy is 66% | 'FA occupancy'=66.0%;;;0;100
 
 check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
+
 PURE_VOL_OCCUPANCY OK - z-oracle1-u04 occupancy is 52624121069B | 'oracle1-u04 occupancy'=52624121069B;;;0
