@@ -56,6 +56,7 @@ Hardware status indicators are collected from the target FA using the REST call.
 ###### Example
 
 check_purefa_hw.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 CH0.BAY2
+
 PURE_CH0.BAY2 OK - CH0.BAY2 status is 0 | 'CH0.BAY2 status'=0;1;1
 
 #### check_purefa_occpy.py
@@ -65,7 +66,7 @@ Hardware status indicators are collected from the target FA using the REST call.
 
 ##### Syntax
 
- *check_purefa_occpy.py endpoint api_token [--vol volname]*
+ *check_purefa_occpy.py endpoint api_token [--vol volname] [-w RANGE] [-c RANGE]*
  
   Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashArray or from a single volume.
   Storage occupancy indicators are collected from the target FA using the REST call.
@@ -84,3 +85,35 @@ PURE_FA_OCCUPANCY OK - FA occupancy is 66% | 'FA occupancy'=66.0%;;;0;100
 check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
 PURE_VOL_OCCUPANCY OK - z-oracle1-u04 occupancy is 52624121069B | 'oracle1-u04 occupancy'=52624121069B;;;0
+
+#### check_purefa_perf.py
+Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashArray.
+Bandwidth counters (read/write), IOPs counters (read/write) and latency (read/write) are collected from the
+target FA using the REST call.
+
+##### Syntax
+
+ *check_purefa_perf.py endpoint api_token [--vol volname][--tw RANGE[,RANGE,...]] [--tc RANGE[,RANGE,...]] [--t TIMEOUT]*
+ 
+   Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashArray.
+   Bandwidth counters (read/write), IOPs counters (read/write) and latency (read/write) are collected from the
+   The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
+   specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
+   be used to check a specific named volume.
+   In addition to these parameters, the plugin accepts multiple warning and critical threshold parameters in positional order:
+      1st threshold refers to write latency
+      2nd threshold refers to read latency
+      3rd threshold refers to write bandwidth
+      4th threshold refers to read bandwidth
+      5th threshold refers to write IOPS
+      6th threshold refers to read IOPS.
+ 
+###### Example
+
+check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283
+
+PURE_FA_PERF OK - FA wlat is 237us | 'FA rbw'=328977030B/s;;;0 'FA riops'=80269rd/s;;;0 'FA rlat'=419us;;;0 'FA wbw'=110185869B/s;;;0 'FA wiops'=26798wr/s;;;0 'FA wlat'=237us;;;0
+
+check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol z-oracle1-u04
+
+PURE_VOL_PERF OK - z-oracle1-u04 wlat is 205us | 'z-oracle1-u04 rbw'=336190250B/s;;;0 'z-oracle1-u04 riops'=82078rd/s;;;0 'z-oracle1-u04 rlat'=370us;;;0 'z-oracle1-u04 wbw'=111469774B/s;;;0 'z-oracle1-u04 wiops'=27214wr/s;;;0 'z-oracle1-u04 wlat'=205us;;;0
