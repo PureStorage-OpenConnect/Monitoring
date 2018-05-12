@@ -64,7 +64,7 @@ Hardware status indicators are collected from the target FA using the REST call.
 
 ##### Syntax
 
- *check_purefa_occpy.py endpoint api_token [volname]*
+ *check_purefa_occpy.py endpoint api_token [--vol volname]*
  
   Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashArray or from a single volume.
   Storage occupancy indicators are collected from the target FA using the REST call.
