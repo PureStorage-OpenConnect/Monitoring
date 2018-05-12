@@ -79,9 +79,14 @@ Hardware status indicators are collected from the target FA using the REST call.
  
 ###### Example
 
+Check the whole FlashArray occupancy:
+
 check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283
 
 PURE_FA_OCCUPANCY OK - FA occupancy is 66% | 'FA occupancy'=66.0%;;;0;100
+
+
+Check volume *oracle-u04* occupancy
 
 check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
@@ -111,10 +116,14 @@ target FA using the REST call.
  
 ###### Example
 
+Check the whole FlashArray performance indicators.
+
 check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283
 
 PURE_FA_PERF OK - FA wlat is 237us | 'FA rbw'=328977030B/s;;;0 'FA riops'=80269rd/s;;;0 'FA rlat'=419us;;;0 'FA wbw'=110185869B/s;;;0 'FA wiops'=26798wr/s;;;0 'FA wlat'=237us;;;0
 
-check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol z-oracle1-u04
+Check the volume *oracle1-u04* performance indicators
 
-PURE_VOL_PERF OK - z-oracle1-u04 wlat is 205us | 'z-oracle1-u04 rbw'=336190250B/s;;;0 'z-oracle1-u04 riops'=82078rd/s;;;0 'z-oracle1-u04 rlat'=370us;;;0 'z-oracle1-u04 wbw'=111469774B/s;;;0 'z-oracle1-u04 wiops'=27214wr/s;;;0 'z-oracle1-u04 wlat'=205us;;;0
+check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
+
+PURE_VOL_PERF OK - oracle1-u04 wlat is 205us | 'oracle1-u04 rbw'=336190250B/s;;;0 'oracle1-u04 riops'=82078rd/s;;;0 'oracle1-u04 rlat'=370us;;;0 'oracle1-u04 wbw'=111469774B/s;;;0 'oracle1-u04 wiops'=27214wr/s;;;0 'oracle1-u04 wlat'=205us;;;0
