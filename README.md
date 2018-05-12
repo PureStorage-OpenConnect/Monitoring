@@ -26,6 +26,7 @@ Change the execution rights of the plugins to allow the execution to 'all' (usua
 Plugins depends on
 
 [nagiosplugin](http://pythonhosted.org/nagiosplugin) helper Python class library for Nagios plugins by Christian Kauhaus
+
 [purestorage](https://github.com/purestorage/rest-client) Pure Storage Python REST Client
 
 The two modules can be easily installed via pip
