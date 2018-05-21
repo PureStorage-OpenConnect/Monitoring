@@ -156,7 +156,7 @@ check_purefb_hw.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece  CH1.FM1
 
 PURE_CH1.FM1 OK - CH1.FM1 status is 0 | 'CH1.FM1 status'=0;1;1
 
-#### check_purefa_occpy.py
+#### check_purefb_occpy.py
 
 Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashBlade, or from a single volume, or from the object store.
 Storage occupancy indicators are collected from the target FB using the REST call.
