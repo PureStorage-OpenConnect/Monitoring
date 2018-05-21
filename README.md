@@ -27,13 +27,19 @@ Plugins depends on
 
 [nagiosplugin](http://pythonhosted.org/nagiosplugin) helper Python class library for Nagios plugins by Christian Kauhaus
 
-[purestorage](https://github.com/purestorage/rest-client) Pure Storage Python REST Client
+[purestorage](https://github.com/purestorage/rest-client) Pure Storage Python REST Client for FlashArray
 
-The two modules can be easily installed via pip
+[purity_fb](https://github.com/purestorage/purity_fb_python_client/archive/v1.2.tar.gz) Pure Storage Python REST Client for FlashBlade v1.2
+
+The first two modules can be easily installed via pip
 
 pip install nagiosplugin
 
 pip install purestorage
+
+while the latter must be installed in version 1.2, due to a bug in latest version
+
+pip install 'purity_fb==1.2'
 
 ### Usage
 
@@ -127,3 +133,60 @@ Check the volume *oracle1-u04* performance indicators
 check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
 PURE_VOL_PERF OK - oracle1-u04 wlat is 205us | 'oracle1-u04 rbw'=336190250B/s;;;0 'oracle1-u04 riops'=82078rd/s;;;0 'oracle1-u04 rlat'=370us;;;0 'oracle1-u04 wbw'=111469774B/s;;;0 'oracle1-u04 wiops'=27214wr/s;;;0 'oracle1-u04 wlat'=205us;;;0
+
+#### check_purefb_hw.py
+
+Nagios plugin to retrieve the current status of hardware components from a Pure Storage FlashBlade.
+Hardware status indicators are collected from the target FB using the REST call.
+
+##### Syntax
+
+ *check_purefb_hw.py endpoint api_token hw_component*
+ 
+The plugin has three mandatory arguments:  'endpoint', which specifies the target FB, 'apitoken', which
+specifies the autentication token for the REST call session and 'component', that is the name of the
+hardware component to be monitored. The component must be specified using the internal naming schema of
+the Pure FlashBlade: i.e CH1 for the main chassis, CH1.FM1 for the primary flash module, CH1.FM2 for the secondary,
+CH1.FB1 for the first blade of first chassis, CH1.FB2 for the secondary blade, CH2 for the second chained FlashBlade
+and so on.
+ 
+###### Example
+
+check_purefb_hw.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece  CH1.FM1
+
+PURE_CH1.FM1 OK - CH1.FM1 status is 0 | 'CH1.FM1 status'=0;1;1
+
+#### check_purefa_occpy.py
+
+Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashBlade, or from a single volume, or from the object store.
+Storage occupancy indicators are collected from the target FB using the REST call.
+
+##### Syntax
+
+ *check_purefa_occpy.py endpoint api_token [--vol volname] [-w RANGE] [-c RANGE]*
+
+The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which
+specifies the autentication token for the REST call session. A third optional parameter, 'volname' or 'objectstore' can
+be used to check a specific named value or the objectstore occupancy. The optional values for the warning and critical thresholds have
+different meausure units: they must be expressed as percentages in the case of checkig the whole flasharray
+occupancy, while they must be integer byte units if checking a single volume.
+ 
+###### Example
+
+Check the whole FlashBlace occupancy:
+
+check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece
+
+PURE_FB_OCCUPANCY OK - FB occupancy is 21% | 'FB occupancy'=21.0%;;;0;100
+
+Check volume *oracle-u01* occupancy
+
+./check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --vol oracle-u01
+
+PURE_FB_VOL_OCCUPANCY OK - oracle-u01 occupancy is 193883707392B | 'oracle-u01 occupancy'=193883707392B;;;0
+
+Check objectsore overall occupancy
+
+check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --objstore
+
+PURE_FB_OBJSTOR_OCCUPANCY OK - FB occupancy is 1% | 'FB occupancy'=1.0%;;;0;100
