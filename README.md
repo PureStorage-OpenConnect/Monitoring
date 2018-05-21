@@ -17,7 +17,9 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 * [check_purefa_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_hw.py) Simple plugin for monitoring Pure Storage FlashArray hardware components.
 * [check_purefa_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_occpy.py) Simple plugin for monitoring Pure Storage FlashArray space occupancy (global/per volume).
 * [check_purefa_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_perf.py) Simple plugin for monitoring Pure Storage FlashArray performance metrics (global/per volume).
-
+* [check_purefb_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_hw.py) Simple plugin for monitoring Pure Storage FlashBlade hardware components.
+* [check_purefb_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_occpy.py) Simple plugin for monitoring Pure Storage FlashBlade space occupancy (global/object store/per NFS volume/).
+* [check_purefb_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_perf.py) Simple plugin for monitoring Pure Storage FlashBlade performance metrics (global/per protocol).
 ### Installation
 
 The plugin scripts should be copied to the Nagios plugins directory on the machine hosting the Nagios server or the NRPE,
@@ -107,18 +109,16 @@ target FA using the REST call.
 
  *check_purefa_perf.py endpoint api_token [--vol volname][--tw RANGE[,RANGE,...]] [--tc RANGE[,RANGE,...]] [--t TIMEOUT]*
  
-   Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashArray.
-   Bandwidth counters (read/write), IOPs counters (read/write) and latency (read/write) are collected from the
-   The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
-   specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
-   be used to check a specific named volume.
-   In addition to these parameters, the plugin accepts multiple warning and critical threshold parameters in positional order:
-      1st threshold refers to write latency
-      2nd threshold refers to read latency
-      3rd threshold refers to write bandwidth
-      4th threshold refers to read bandwidth
-      5th threshold refers to write IOPS
-      6th threshold refers to read IOPS.
+The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
+specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
+be used to check a specific named volume.
+In addition to these parameters, the plugin accepts multiple warning and critical threshold parameters in positional order:
+   1st threshold refers to write latency
+   2nd threshold refers to read latency
+   3rd threshold refers to write bandwidth
+   4th threshold refers to read bandwidth
+   5th threshold refers to write IOPS
+   6th threshold refers to read IOPS.
  
 ###### Example
 
@@ -190,3 +190,50 @@ Check objectsore overall occupancy
 check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --objstore
 
 PURE_FB_OBJSTOR_OCCUPANCY OK - FB occupancy is 1% | 'FB occupancy'=1.0%;;;0;100
+
+#### check_purefb_perf.py
+
+Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashBlade.
+Bandwidth counters (read/write), IOPs counters (read/write) and latency (read/write) are collected from the
+target FB using the REST call.
+
+##### Syntax
+
+*check_purefb_perf.py endpoint api_token [--proto nfs|http|s3][--tw RANGE[,RANGE,...]] [--tc RANGE[,RANGE,...]] [--t TIMEOUT]*
+ 
+The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
+specifies the autentication token for the REST call session. A third optional parameter, 'protocol' can
+be used to check a specific protocol.
+The plugin accepts multiple warning and critical threshold parameters in a positional fashion:
+   1st threshold refers to write latency
+   2nd threshold refers to read latency
+   3rd threshold refers to write bandwidth
+   4th threshold refers to read bandwidth
+   5th threshold refers to write IOPS
+   6th threshold refers to read IOPS
+ 
+###### Example
+
+Check the whole FlashBlade performance indicators.
+
+check_purefb_perf.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece
+
+PURE_FB_PERF OK - FB wlat is 0us | 'FB rbw'=0B/s;;;0 'FB riops'=0rd/s;;;0 'FB rlat'=0us;;;0 'FB wbw'=0B/s;;;0 'FB wiops'=0wr/s;;;0 'FB wlat'=0us;;;0
+
+Check the NFS performance indicators.
+
+check_purefb_perf.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --proto nfs
+
+PURE_FB_NFS_PERF OK - FB wlat is 0us | 'FB rbw'=0B/s;;;0 'FB riops'=0rd/s;;;0 'FB rlat'=0us;;;0 'FB wbw'=0B/s;;;0 'FB wiops'=0wr/s;;;0 'FB wlat'=0us;;;0
+
+Check the S3 performance indicators.
+
+check_purefb_perf.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --proto s3
+
+PURE_FB_S3_PERF OK - FB wlat is 0us | 'FB rbw'=0B/s;;;0 'FB riops'=0rd/s;;;0 'FB rlat'=0us;;;0 'FB wbw'=0B/s;;;0 'FB wiops'=0wr/s;;;0 'FB wlat'=0us;;;0
+
+Check the HTTP performance indicators.
+
+check_purefb_perf.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --proto http
+
+PURE_FB_HTTP_PERF OK - FB wlat is 0us | 'FB rbw'=0B/s;;;0 'FB riops'=0rd/s;;;0 'FB rlat'=0us;;;0 'FB wbw'=0B/s;;;0 'FB wiops'=0wr/s;;;0 'FB wlat'=0us;;;
