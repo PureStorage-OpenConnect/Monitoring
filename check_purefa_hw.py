@@ -66,7 +66,7 @@ class PureFAhw(nagiosplugin.Resource):
     def name(self):
         return 'PURE_' + str(self.component)
 
-    def get_perf(self):
+    def get_status(self):
         """Gets hardware element status from FlashArray."""
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         fa = purestorage.FlashArray(self.endpoint, api_token=self.apitoken)
@@ -76,7 +76,7 @@ class PureFAhw(nagiosplugin.Resource):
 
     def probe(self):
 
-        fainfo = self.get_perf()
+        fainfo = self.get_status()
         _log.debug('FA REST call returned "%s" ', fainfo)
         status = fainfo.get('status')
         if (status == 'ok') or (status == 'not_installed'):
