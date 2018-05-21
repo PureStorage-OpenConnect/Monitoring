@@ -4,7 +4,7 @@
 ## Overview
 #
 # This short Nagios/Icinga plugin code shows  how to build a simple plugin to monitor Pure Storage FlashArrays.
-# The Pure Storage Python REST Client is used to query the FlashArray occupancy indicators.
+# The Pure Storage Python REST Client is used to query the FlashArray hardware compoment status.
 # Plugin leverages the remarkably helpful nagiosplugin library by Christian Kauhaus.
 #
 ## Installation
@@ -67,7 +67,7 @@ class PureFAhw(nagiosplugin.Resource):
         return 'PURE_' + str(self.component)
 
     def get_perf(self):
-        """Gets hardware element status from flasharray."""
+        """Gets hardware element status from FlashArray."""
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         fa = purestorage.FlashArray(self.endpoint, api_token=self.apitoken)
         fainfo = fa.get_hardware(component=self.component)
