@@ -51,7 +51,7 @@ _log = logging.getLogger('nagiosplugin')
 class PureFAoccpy(nagiosplugin.Resource):
     """Pure Storage FlashArray  occupancy
 
-    Calculates the overall FA storage occupancy or a single volume capacity.
+    Calculates the overall FlashArray storage occupancy or a single volume capacity.
 
     """
 
@@ -68,8 +68,8 @@ class PureFAoccpy(nagiosplugin.Resource):
             return 'PURE_VOL_OCCUPANCY'
 
 
-    def get_perf(self):
-        """Gets performance counters from flasharray."""
+    def get_occupancy(self):
+        """Gets space occupancy counters from FlashArray."""
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         fa = purestorage.FlashArray(self.endpoint, api_token=self.apitoken)
         if (self.volname is None):
@@ -82,7 +82,7 @@ class PureFAoccpy(nagiosplugin.Resource):
 
     def probe(self):
 
-        fainfo = self.get_perf()
+        fainfo = self.get_occupancy()
         _log.debug('FA REST call returned "%s" ', fainfo)
         if (self.volname is None):
             occupancy = round(float(fainfo.get('total'))/float(fainfo.get('capacity')), 2) * 100
