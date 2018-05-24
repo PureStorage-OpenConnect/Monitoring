@@ -22,7 +22,7 @@ __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
 __credits__ = "Christian Kauhaus"
 __license__ = "Apache v2.0"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -85,10 +85,10 @@ class PureFBperf(nagiosplugin.Resource):
         fb.disable_verify_ssl()
         fb.login(self.apitoken)
 
-        if (self.proto == 'nfs') or (self.proto == 's3') or (self.proto == 'http'):
-            fbinfo = fb.arrays.list_arrays_performance(protocol=self.proto)
-        else:
+        if (self.proto is None):
             fbinfo = fb.arrays.list_arrays_performance()
+        else:
+            fbinfo = fb.arrays.list_arrays_performance(protocol=self.proto)
 
         fb.logout()
         return(fbinfo)
@@ -109,10 +109,10 @@ class PureFBperf(nagiosplugin.Resource):
         metrics = [
                     nagiosplugin.Metric(mlabel + 'wlat', wlat, 'us', min=0, context='wlat'),
                     nagiosplugin.Metric(mlabel + 'rlat', rlat, 'us', min=0, context='wlat'),
-                    nagiosplugin.Metric(mlabel + 'wbw', wbw, 'B/s', min=0, context='wbw'),
-                    nagiosplugin.Metric(mlabel + 'rbw', rbw, 'B/s', min=0, context='rbw'),
-                    nagiosplugin.Metric(mlabel + 'wiops', wiops, 'wr/s', min=0, context='wiops'),
-                    nagiosplugin.Metric(mlabel + 'riops', riops, 'rd/s', min=0, context='riops')
+                    nagiosplugin.Metric(mlabel + 'wbw', wbw, '', min=0, context='wbw'),
+                    nagiosplugin.Metric(mlabel + 'rbw', rbw, '', min=0, context='rbw'),
+                    nagiosplugin.Metric(mlabel + 'wiops', wiops, '', min=0, context='wiops'),
+                    nagiosplugin.Metric(mlabel + 'riops', riops, '', min=0, context='riops')
                   ]
         return metrics
 
@@ -121,13 +121,13 @@ def parse_args():
     argp = argparse.ArgumentParser()
     argp.add_argument('endpoint', help="FB hostname or ip address")
     argp.add_argument('apitoken', help="FB api_token")
-    argp.add_argument('--proto', help="FB protocol. If omitted the whole FB performance counters are checked")
+    argp.add_argument('--proto', choices=('nfs', 'smb', 'http', 's3'), help="FB protocol. If omitted the whole FB performance counters are checked")
     argp.add_argument('--tw', '--ttot-warning', metavar='RANGE[,RANGE,...]',
                       type=nagiosplugin.MultiArg, default='',
-                      help="positional thresholds: write_latency, read_latenxy, write_bandwidth, read_bandwidth, write_iops, read_iops")
+                      help="positional thresholds: write_latency, read_latency, write_bandwidth, read_bandwidth, write_iops, read_iops")
     argp.add_argument('--tc', '--ttot-critical', metavar='RANGE[,RANGE,...]',
                       type=nagiosplugin.MultiArg, default='',
-                      help="positional thresholds: write_latency, read_latenxy, write_bandwidth, read_bandwidth, write_iops, read_iops")
+                      help="positional thresholds: write_latency, read_latency, write_bandwidth, read_bandwidth, write_iops, read_iops")
     argp.add_argument('-v', '--verbose', action='count', default=0,
                       help='increase output verbosity (use up to 3 times)')
     argp.add_argument('-t', '--timeout', default=30,
