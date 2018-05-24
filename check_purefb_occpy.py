@@ -3,8 +3,8 @@
 #
 ## Overview
 #
-# This short Nagios/Icinga plugin code shows  how to build a simple plugin to monitor Pure Storage FlashBlade systems.
-# The Pure Storage Python REST Client is used to query the FlashBlade hardware compoment status.
+# This short Nagios/Icinga plugin code shows  how to build a simple plugin to monitor Pure Storage FlashArrays.
+# The Pure Storage Python REST Client is used to query the FlashArray occupancy indicators.
 # Plugin leverages the remarkably helpful nagiosplugin library by Christian Kauhaus.
 #
 ## Installation
@@ -16,7 +16,7 @@
 ## Dependencies
 #
 #  nagiosplugin      helper Python class library for Nagios plugins by Christian Kauhaus (http://pythonhosted.org/nagiosplugin)
-#  purity_fb         Pure Storage Python REST Client for FlashBlade v1.2 (https://github.com/purestorage/purity_fb_python_client/archive/v1.2.tar.gz)
+#  purestorage       Pure Storage Python REST Client (https://github.com/purestorage/rest-client)
 
 __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
@@ -27,71 +27,81 @@ __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
 
-"""Pure Storage FlashBlade hardware components status
+"""Pure Storage FlashArray occupancy status
 
-   Nagios plugin to retrieve the current status of hardware components from a Pure Storage FlashBlade.
-   Hardware status indicators are collected from the target FA using the REST call.
-   The plugin has three mandatory arguments:  'endpoint', which specifies the target FB, 'apitoken', which
-   specifies the autentication token for the REST call session and 'component', that is the name of the
-   hardware component to be monitored. The component must be specified using the internal naming schema of
-   the Pure FlashBlade: i.e CH1 for the main chassis, CH1.FM1 for the primary flash module, CH1.FM2 for the secondary,
-   CH1.FB1 for the first blade of first chassis, CH1.FB2 for the secondary blade, CH2 for the second chained FlashBlade
-   and so on.
+   Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashArray or from a single volume.
+   Storage occupancy indicators are collected from the target FA using the REST call.
+   The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
+   specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
+   be used to check a specific named value. The optional values for the warning and critical thresholds have
+   different meausure units: they must be expressed as percentages in the case of checkig the whole flasharray
+   occupancy, while they must be integer byte units if checking a single volume.
+
 """
 
 import argparse
 import logging
 import nagiosplugin
+import purestorage
 import urllib3
-from purity_fb import PurityFb, Hardware, rest
 
 
 _log = logging.getLogger('nagiosplugin')
 
-class PureFBhw(nagiosplugin.Resource):
-    """Pure Storage FlashBlade hardware component status
+class PureFAoccpy(nagiosplugin.Resource):
+    """Pure Storage FlashArray  occupancy
 
-    Retrieves the currents operating status of a specified hardware component
+    Calculates the overall FA storage occupancy or a single volume capacity.
 
     """
 
-    def __init__(self, endpoint, apitoken, component):
+    def __init__(self, endpoint, apitoken, volname):
         self.endpoint = endpoint
         self.apitoken = apitoken
-        self.component = component
+        self.volname = volname
 
     @property
     def name(self):
-        return 'PURE_' + str(self.component)
+        if (self.volname is None):
+            return 'PURE_FA_OCCUPANCY'
+        else:
+            return 'PURE_VOL_OCCUPANCY'
 
-    def get_status(self):
-        """Gets hardware component status from FlashBlade."""
+
+    def get_perf(self):
+        """Gets performance counters from flasharray."""
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        fb = PurityFb(self.endpoint)
-        fb.disable_verify_ssl()
-        fb.login(self.apitoken)
-        fbinfo = fb.hardware.list_hardware(names=[self.component])
-        fb.logout()
-        return(fbinfo)
+        fa = purestorage.FlashArray(self.endpoint, api_token=self.apitoken)
+        if (self.volname is None):
+            fainfo = fa.get(space=True)[0]
+        else:
+            fainfo = fa.get_volume(self.volname, space=True)
+
+        fa.invalidate_cookie()
+        return(fainfo)
 
     def probe(self):
 
-        fbinfo = self.get_status()
-        _log.debug('FB REST call returned "%s" ', fbinfo)
-        status = fbinfo.items[0].status
-        #if (status == 'healthy') or (status == 'unused'):
-        if (status == 'a'):
-            metric = nagiosplugin.Metric(self.component + ' status', 0, context='default' )
+        fainfo = self.get_perf()
+        _log.debug('FA REST call returned "%s" ', fainfo)
+        if (self.volname is None):
+            occupancy = round(float(fainfo.get('total'))/float(fainfo.get('capacity')), 2) * 100
+            metric = nagiosplugin.Metric('FA occupancy', occupancy, '%', min=0, max=100, context='occupancy')
         else:
-            metric = nagiosplugin.Metric(self.component + ' status', 1, context='default')
+            occupancy = int(fainfo.get('volumes'))
+            metric = nagiosplugin.Metric(self.volname + ' occupancy', occupancy, 'B', min=0, context='occupancy')
         return metric
 
 
 def parse_args():
     argp = argparse.ArgumentParser()
-    argp.add_argument('endpoint', help="FB hostname or ip address")
-    argp.add_argument('apitoken', help="FB api_token")
-    argp.add_argument('component', help="FB hardware component")
+    argp.add_argument('endpoint', help="FA hostname or ip address")
+    argp.add_argument('apitoken', help="FA api_token")
+    argp.add_argument('--vol', help="FA volume name. If omitted the whole FA occupancy is cecked")
+    argp.add_argument('-w', '--warning', metavar='RANGE', default='',
+                      help='return warning if occupancy is outside RANGE. Value has to be expressed in percentage for the FA, while in bytes for the single volume')
+    argp.add_argument('-c', '--critical', metavar='RANGE', default='',
+                      help='return critical if occupancy is outside RANGE. Value has to be expressed in percentage for the FA, while in bytes for the single volume')
     argp.add_argument('-v', '--verbose', action='count', default=0,
                       help='increase output verbosity (use up to 3 times)')
     argp.add_argument('-t', '--timeout', default=30,
@@ -102,8 +112,8 @@ def parse_args():
 @nagiosplugin.guarded
 def main():
     args = parse_args()
-    check = nagiosplugin.Check( PureFBhw(args.endpoint, args.apitoken, args.component) )
-    check.add(nagiosplugin.ScalarContext('default', '', '@1:1'))
+    check = nagiosplugin.Check( PureFAoccpy(args.endpoint, args.apitoken, args.vol) )
+    check.add(nagiosplugin.ScalarContext('occupancy', args.warning, args.critical))
     check.main(args.verbose, args.timeout)
 
 if __name__ == '__main__':
