@@ -17,6 +17,7 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 * [check_purefa_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_hw.py) Simple plugin for monitoring Pure Storage FlashArray hardware components.
 * [check_purefa_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_occpy.py) Simple plugin for monitoring Pure Storage FlashArray space occupancy (global/per volume).
 * [check_purefa_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_perf.py) Simple plugin for monitoring Pure Storage FlashArray performance metrics (global/per volume).
+* [check_purefb_alert.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_alert.py) Simple plugin for monitoring Pure Storage FlashBlade alerts.
 * [check_purefb_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_hw.py) Simple plugin for monitoring Pure Storage FlashBlade hardware components.
 * [check_purefb_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_occpy.py) Simple plugin for monitoring Pure Storage FlashBlade space occupancy (global/object store/per NFS volume/).
 * [check_purefb_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_perf.py) Simple plugin for monitoring Pure Storage FlashBlade performance metrics (global/per protocol).
@@ -41,7 +42,7 @@ pip install purestorage
 
 while the latter must be installed in version 1.2, due to a bug in latest version
 
-pip install 'purity_fb==1.2'
+pip install 'purity_fb<1.3'
 
 ### Usage
 
@@ -133,6 +134,24 @@ Check the volume *oracle1-u04* performance indicators
 check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
 PURE_VOL_PERF OK - oracle1-u04 wlat is 205us | 'oracle1-u04 rbw'=336190250B/s;;;0 'oracle1-u04 riops'=82078rd/s;;;0 'oracle1-u04 rlat'=370us;;;0 'oracle1-u04 wbw'=111469774B/s;;;0 'oracle1-u04 wiops'=27214wr/s;;;0 'oracle1-u04 wlat'=205us;;;0
+
+#### check_purefb_alert.py
+
+Nagios plugin to retrieve the current status of open alert messages from a Pure Storage FlashBlade.
+Alert messages states are collected from the target FB using the REST call.
+
+##### Syntax
+
+ *check_purefb_alert.py endpoint api_token
+ 
+The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which
+specifies the autentication token for the REST call session.
+ 
+###### Example
+
+check_purefb_alert.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece
+
+PURE_ALERTS CRITICAL - FB_ALERTS is 1 (outside range @1:1) | FB_ALERTS=1;;@1:1
 
 #### check_purefb_hw.py
 
