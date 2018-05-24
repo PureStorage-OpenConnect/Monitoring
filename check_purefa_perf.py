@@ -104,10 +104,10 @@ class PureFAperf(nagiosplugin.Resource):
         metrics = [
                     nagiosplugin.Metric(mlabel + 'wlat', wlat, 'us', min=0, context='wlat'),
                     nagiosplugin.Metric(mlabel + 'rlat', rlat, 'us', min=0, context='wlat'),
-                    nagiosplugin.Metric(mlabel + 'wbw', wbw, 'B/s', min=0, context='wbw'),
-                    nagiosplugin.Metric(mlabel + 'rbw', rbw, 'B/s', min=0, context='rbw'),
-                    nagiosplugin.Metric(mlabel + 'wiops', wiops, 'wr/s', min=0, context='wiops'),
-                    nagiosplugin.Metric(mlabel + 'riops', riops, 'rd/s', min=0, context='riops')
+                    nagiosplugin.Metric(mlabel + 'wbw', wbw, , min=0, context='wbw'),
+                    nagiosplugin.Metric(mlabel + 'rbw', rbw, , min=0, context='rbw'),
+                    nagiosplugin.Metric(mlabel + 'wiops', wiops, , min=0, context='wiops'),
+                    nagiosplugin.Metric(mlabel + 'riops', riops, , min=0, context='riops')
                   ]
         return metrics
 
