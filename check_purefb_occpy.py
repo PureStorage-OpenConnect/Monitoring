@@ -32,8 +32,10 @@ __status__ = "Production"
    Nagios plugin to retrieve the overall occupancy from a Pure Storage FlashBlade, or from a single volume, or from the object store.
    Storage occupancy indicators are collected from the target FB using the REST call.
    The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which specifies the autentication
-   token for the REST call session. A third optional parameter, 'volname' or 'objectstore' can be used to check a specific named value
-   or the objectstore occupancy. The optional values for the warning and critical thresholds have different meausure units: they must be
+   token for the REST call session. A third optional selector flag can be used to check the occupancy of the filesystems store (--fs) or
+   the objectstore occupancy (--s3). It is also possible to retrieve the occupied space for a specific filesystem by specifying the 
+   filesystem name as the additional parameter to the --fs selectot.
+   The optional values for the warning and critical thresholds have different meausure units: they must be
    expressed as percentages in the case of checkig the whole FlashBlade occupancy, while they must be integer byte units if checking a
    single volume.
 
