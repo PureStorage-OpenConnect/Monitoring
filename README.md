@@ -182,7 +182,7 @@ Storage occupancy indicators are collected from the target FB using the REST cal
 
 ##### Syntax
 
- *check_purefa_occpy.py endpoint api_token [--vol volname] [-w RANGE] [-c RANGE]*
+ *check_purefa_occpy.py endpoint api_token [--fs [volname]| --s3] [-w RANGE] [-c RANGE]*
 
 The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which
 specifies the autentication token for the REST call session. A third optional parameter, 'volname' or 'objectstore' can
@@ -200,13 +200,13 @@ PURE_FB_OCCUPANCY OK - FB occupancy is 21% | 'FB occupancy'=21.0%;;;0;100
 
 Check volume *oracle-u01* occupancy
 
-./check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --vol oracle-u01
+./check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --fs oracle-u01
 
 PURE_FB_VOL_OCCUPANCY OK - oracle-u01 occupancy is 193883707392B | 'oracle-u01 occupancy'=193883707392B;;;0
 
 Check objectsore overall occupancy
 
-check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --objstore
+check_purefb_occpy.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece --s3
 
 PURE_FB_OBJSTOR_OCCUPANCY OK - FB occupancy is 1% | 'FB occupancy'=1.0%;;;0;100
 
