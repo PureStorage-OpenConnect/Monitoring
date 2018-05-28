@@ -79,8 +79,7 @@ class PureFBhw(nagiosplugin.Resource):
         fbinfo = self.get_status()
         _log.debug('FB REST call returned "%s" ', fbinfo)
         status = fbinfo.items[0].status
-        #if (status == 'healthy') or (status == 'unused'):
-        if (status == 'a'):
+        if (status == 'healthy') or (status == 'unused'):
             metric = nagiosplugin.Metric(self.component + ' status', 0, context='default' )
         else:
             metric = nagiosplugin.Metric(self.component + ' status', 1, context='default')
