@@ -14,10 +14,11 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 
 ## Nagios/Icinga2
 
+* [check_purefb_alert.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_alert.py) Simple plugin for monitoring Pure Storage FlashArray alerts status.
 * [check_purefa_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_hw.py) Simple plugin for monitoring Pure Storage FlashArray hardware components.
 * [check_purefa_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_occpy.py) Simple plugin for monitoring Pure Storage FlashArray space occupancy (global/per volume).
 * [check_purefa_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefa_perf.py) Simple plugin for monitoring Pure Storage FlashArray performance metrics (global/per volume).
-* [check_purefb_alert.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_alert.py) Simple plugin for monitoring Pure Storage FlashBlade alerts.
+* [check_purefb_alert.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_alert.py) Simple plugin for monitoring Pure Storage FlashBlade alerts status.
 * [check_purefb_hw.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_hw.py) Simple plugin for monitoring Pure Storage FlashBlade hardware components.
 * [check_purefb_occpy.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_occpy.py) Simple plugin for monitoring Pure Storage FlashBlade space occupancy (global/object store/per NFS volume).
 * [check_purefb_perf.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/check_purefb_perf.py) Simple plugin for monitoring Pure Storage FlashBlade performance metrics (global/per protocol).
@@ -46,6 +47,24 @@ pip install 'purity_fb<1.3'
 
 ### Usage
 
+#### check_purefa_alert.py
+
+Nagios plugin to retrieve the current status of open alert messages from a Pure Storage FlashArray.
+Alert messages states are collected from the target FA using the REST call.
+
+##### Syntax
+
+ *check_purefa_alert.py endpoint api_token
+ 
+The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which
+specifies the autentication token for the REST call session.
+ 
+###### Example
+
+check_purefa_alert.py 10.225.112.102 b6ef8864-2324-b9d5-cbc3-01f5092105a1
+
+PURE_FA_ALERT CRITICAL - FA_ALERTS is 1 (outside range @1:1) | FA_ALERTS=1;;@1:1
+
 #### check_purefa_hw.py
 
 Nagios plugin to retrieve the current status of hardware components from a Pure Storage FlashArray.
@@ -67,7 +86,7 @@ Hardware status indicators are collected from the target FA using the REST call.
 
 check_purefa_hw.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 CH0.BAY2
 
-PURE_CH0.BAY2 OK - CH0.BAY2 status is 0 | 'CH0.BAY2 status'=0;1;1
+PURE_FA_CH0.BAY2 OK - CH0.BAY2 status is 0 | 'CH0.BAY2 status'=0;1;1
 
 #### check_purefa_occpy.py
 
@@ -99,7 +118,7 @@ Check volume *oracle-u04* occupancy
 
 check_purefa_occpy.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
-PURE_VOL_OCCUPANCY OK - z-oracle1-u04 occupancy is 52624121069B | 'oracle1-u04 occupancy'=52624121069B;;;0
+PURE_FA_VOL_OCCUPANCY OK - z-oracle1-u04 occupancy is 52624121069B | 'oracle1-u04 occupancy'=52624121069B;;;0
 
 #### check_purefa_perf.py
 Nagios plugin to retrieve the six (6) basic KPIs from a Pure Storage FlashArray.
@@ -133,7 +152,7 @@ Check the volume *oracle1-u04* performance indicators
 
 check_purefa_perf.py 10.225.112.81 c4eb5b21-4122-b871-8b0f-684bf72b5283 --vol oracle1-u04
 
-PURE_VOL_PERF OK - oracle1-u04 wlat is 205us | 'oracle1-u04 rbw'=336190250B/s;;;0 'oracle1-u04 riops'=82078rd/s;;;0 'oracle1-u04 rlat'=370us;;;0 'oracle1-u04 wbw'=111469774B/s;;;0 'oracle1-u04 wiops'=27214wr/s;;;0 'oracle1-u04 wlat'=205us;;;0
+PURE_FA_VOL_PERF OK - oracle1-u04 wlat is 205us | 'oracle1-u04 rbw'=336190250B/s;;;0 'oracle1-u04 riops'=82078rd/s;;;0 'oracle1-u04 rlat'=370us;;;0 'oracle1-u04 wbw'=111469774B/s;;;0 'oracle1-u04 wiops'=27214wr/s;;;0 'oracle1-u04 wlat'=205us;;;0
 
 #### check_purefb_alert.py
 
@@ -151,7 +170,7 @@ specifies the autentication token for the REST call session.
 
 check_purefb_alert.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece
 
-PURE_ALERTS CRITICAL - FB_ALERTS is 1 (outside range @1:1) | FB_ALERTS=1;;@1:1
+PURE_FB_ALERTS CRITICAL - FB_ALERTS is 1 (outside range @1:1) | FB_ALERTS=1;;@1:1
 
 #### check_purefb_hw.py
 
@@ -173,7 +192,7 @@ and so on.
 
 check_purefb_hw.py 10.225.112.69 T-a1c1a9de-5d14-4f1d-9469-4e1853232ece  CH1.FM1
 
-PURE_CH1.FM1 OK - CH1.FM1 status is 0 | 'CH1.FM1 status'=0;1;1
+PURE_FB_CH1.FM1 OK - CH1.FM1 status is 0 | 'CH1.FM1 status'=0;1;1
 
 #### check_purefb_occpy.py
 
@@ -182,12 +201,12 @@ Storage occupancy indicators are collected from the target FB using the REST cal
 
 ##### Syntax
 
- *check_purefa_occpy.py endpoint api_token [--fs [volname]| --s3] [-w RANGE] [-c RANGE]*
+ *check_purefb_occpy.py endpoint api_token [--fs [volname]| --s3] [-w RANGE] [-c RANGE]*
 
 The plugin has two mandatory arguments:  'endpoint', which specifies the target FB and 'apitoken', which
 specifies the autentication token for the REST call session. A third optional parameter, 'volname' or 'objectstore' can
 be used to check a specific named value or the objectstore occupancy. The optional values for the warning and critical thresholds have
-different meausure units: they must be expressed as percentages in the case of checkig the whole flasharray
+different meausure units: they must be expressed as percentages in the case of checkig the whole FlashBlade
 occupancy, while they must be integer byte units if checking a single volume.
  
 ###### Example
