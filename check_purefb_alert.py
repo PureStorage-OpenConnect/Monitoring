@@ -22,7 +22,7 @@ __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
 __credits__ = "Christian Kauhaus"
 __license__ = "Apache v2.0"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -57,7 +57,7 @@ class PureFBalerts(nagiosplugin.Resource):
 
     @property
     def name(self):
-        return 'PURE_ALERTS'
+        return 'PURE_FB_ALERTS'
 
     def get_alerts(self):
         """Gets active alerts from FlashBlade."""
