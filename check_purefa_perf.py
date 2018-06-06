@@ -23,7 +23,7 @@ __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
 __credits__ = "Christian Kauhaus"
 __license__ = "Apache v2.0"
-__version__ = "1.1"
+__version__ = "1.2"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -73,7 +73,7 @@ class PureFAperf(nagiosplugin.Resource):
         if (self.volname is None):
             return 'PURE_FA_PERF'
         else:
-            return 'PURE_VOL_PERF'
+            return 'PURE_FA_VOL_PERF'
 
     def get_perf(self):
         """Gets performance counters from flasharray."""
