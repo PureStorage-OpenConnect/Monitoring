@@ -27,7 +27,7 @@ __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
 
-"""Pure Storage FlashBlade hardware components status
+"""Pure Storage FlashBlade alert messages status
 
    Nagios plugin to check the general state of a Pure Storage FlashBlade from the internal alert messages.
    The plugin has two mandatory arguments:  'endpoint', which specifies the target FB, 'apitoken', which
