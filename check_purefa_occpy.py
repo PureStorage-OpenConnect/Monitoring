@@ -22,7 +22,7 @@ __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
 __credits__ = "Christian Kauhaus"
 __license__ = "Apache v2.0"
-__version__ = "1.1"
+__version__ = "1.2"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -34,7 +34,7 @@ __status__ = "Production"
    The plugin has two mandatory arguments:  'endpoint', which specifies the target FA and 'apitoken', which
    specifies the autentication token for the REST call session. A third optional parameter, 'volname' can
    be used to check a specific named value. The optional values for the warning and critical thresholds have
-   different meausure units: they must be expressed as percentages in the case of checkig the whole flasharray
+   different meausure units: they must be expressed as percentages in the case of checkig the whole FlashArray
    occupancy, while they must be integer byte units if checking a single volume.
 
 """
@@ -65,7 +65,7 @@ class PureFAoccpy(nagiosplugin.Resource):
         if (self.volname is None):
             return 'PURE_FA_OCCUPANCY'
         else:
-            return 'PURE_VOL_OCCUPANCY'
+            return 'PURE_FA_VOL_OCCUPANCY'
 
 
     def get_perf(self):
