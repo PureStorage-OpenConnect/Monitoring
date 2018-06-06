@@ -4,7 +4,7 @@
 ## Overview
 #
 # This short Nagios/Icinga plugin code shows  how to build a simple plugin to monitor Pure Storage FlashBlade systems.
-# The Pure Storage Python REST Client is used to query the FlashBlade hardware compoment status.
+# The Pure Storage Python REST Client is used to query the FlashBlade alert messages.
 # Plugin leverages the remarkably helpful nagiosplugin library by Christian Kauhaus.
 #
 ## Installation
