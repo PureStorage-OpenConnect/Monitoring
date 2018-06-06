@@ -22,7 +22,7 @@ __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
 __credits__ = "Christian Kauhaus"
 __license__ = "Apache v2.0"
-__version__ = "1.1"
+__version__ = "1.2"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -64,7 +64,7 @@ class PureFAhw(nagiosplugin.Resource):
 
     @property
     def name(self):
-        return 'PURE_' + str(self.component)
+        return 'PURE_FA_' + str(self.component)
 
     def get_status(self):
         """Gets hardware element status from flasharray."""
