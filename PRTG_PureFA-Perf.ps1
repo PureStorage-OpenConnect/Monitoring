@@ -35,6 +35,8 @@ Param (
    [string]$apitoken
 )
 
+$ErrorActionPreference = "SilentlyContinue"
+
 $FA = New-PfaArray -EndPoint $endpoint -ApiToken $apitoken -IgnoreCertificateError
 
 $iom = Get-PfaArrayIOMetrics -Array $FA
@@ -56,6 +58,7 @@ $prtgSens.prtg.result = @(
 @{ "channel" = "out sec"; "value" = [string]$iom.output_per_sec; "unit" = "BytesBandwidth"; "SpeedSize" = "Byte" } ,
 @{ "channel" = "in sec"; "value" = [string]$iom.input_per_sec; "unit" = "BytesBandwidth"; "SpeedSize" = "Byte" } ,
 @{ "channel" = "q depth"; "value" = [string]$iom.queue_depth; "unit" = "custom"; "customunit" = "avg queued" })
+)
 
 $sensOut = ConvertTo-Json -InputObject $prtgSens -Depth 3
 
