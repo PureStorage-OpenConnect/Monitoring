@@ -1,5 +1,6 @@
 <#
 .SYNOPSIS
+
 Simple PRTG custom sensor for monitoring Pure Storage FlashArrays volumes.
 
 .DESCRIPTION
