@@ -35,6 +35,8 @@ Param (
    [string]$apitoken
 )
 
+$ErrorActionPreference = "SilentlyContinue"
+
 $FA = New-PfaArray -EndPoint $endpoint -ApiToken $apitoken -IgnoreCertificateError
 
 $hwattrs = Get-PfaAllHardwareAttributes -Array $FA
