@@ -33,17 +33,13 @@ Plugins depends on
 
 [purestorage](https://github.com/purestorage/rest-client) Pure Storage Python REST Client for FlashArray
 
-[purity_fb](https://github.com/purestorage/purity_fb_python_client/archive/v1.2.tar.gz) Pure Storage Python REST Client for FlashBlade v1.2
-
-The first two modules can be easily installed via pip
+[purity_fb](https://github.com/purestorage/purity_fb_python_client) Pure Storage Python REST Client for FlashBlade
 
 pip install nagiosplugin
 
 pip install purestorage
 
-while the latter must be installed in version 1.2, due to a bug in latest version
-
-pip install 'purity_fb<1.3'
+pip install purity_fb
 
 ### Usage
 
