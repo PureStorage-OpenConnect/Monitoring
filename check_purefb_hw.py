@@ -16,7 +16,7 @@
 ## Dependencies
 #
 #  nagiosplugin      helper Python class library for Nagios plugins by Christian Kauhaus (http://pythonhosted.org/nagiosplugin)
-#  purity_fb         Pure Storage Python REST Client for FlashBlade v1.2 (https://github.com/purestorage/purity_fb_python_client/archive/v1.2.tar.gz)
+#  purity_fb         Pure Storage Python REST Client for FlashBlade (https://github.com/purestorage/purity_fb_python_client)
 
 __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2018, Pure Storage Inc."
