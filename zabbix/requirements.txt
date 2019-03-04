@@ -1,0 +1,2 @@
+purity_fb=1.6
+py-zabbix
