@@ -1,0 +1,39 @@
+--- fb_client.py.orig   2019-03-04 21:49:04.165742397 +0000
++++ fb_client.py        2019-03-04 21:56:09.650025767 +0000
+@@ -34,12 +34,24 @@
+     DEFAULT_CONN_TIMEOUT = 10.0
+     DEFAULT_RETRIES = 5
+
+-    def __init__(self, host, version=None, api_token=None):
++    def __init__(self, host, version=None, api_token=None, conn_timeo=None, read_timeo=None, retries=None):
+         self._api_client = ApiClient(host='https://{}/api'.format(host))
++        if conn_timeo is None:
++            self.conn_timeo = PurityFb.DEFAULT_CONN_TIMEOUT
++        else:
++            self.conn_timeo = conn_timeo
++        if read_timeo is None:
++            self.read_timeo = PurityFb.DEFAULT_READ_TIMEOUT
++        else:
++            self.read_timeo = read_timeo
++        if  retries is None:
++            self.retries = urllib3.Retry(total=PurityFb.DEFAULT_RETRIES)
++        else:
++            self.read_timeo = read_timeo
++
+         self.request_timeout = urllib3.Timeout(
+-            connect=PurityFb.DEFAULT_CONN_TIMEOUT,
+-            read=PurityFb.DEFAULT_READ_TIMEOUT)
+-        self.retries = urllib3.Retry(total=PurityFb.DEFAULT_RETRIES)
++            connect=self.conn_timeo,
++            read=self.read_timeo)
+         self.api_version = VersionApi(self._api_client)
+         self.disable_verify_ssl()
+
+@@ -73,7 +85,7 @@
+
+     def list_versions(self):
+         try:
+-            return self.api_version.list_versions().versions
++            return self.api_version.list_versions(_request_timeout=(self.conn_timeo,self.read_timeo)).versions
+         except rest.ApiException:
+             return ['1.0']
