@@ -10,7 +10,8 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 
 ## Zabbix
 
-Zabbix monitoring extension for Pure Storage Flashblade.
+### Zabbix monitoring extension for Pure Storage Flashblade.
+
 This module is provided in a form of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array by using the Zabbix trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
 
 ### Installation
