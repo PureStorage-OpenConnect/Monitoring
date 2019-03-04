@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # Copyright (c) 2018 Pure Storage, Inc.
 #
-## Overview
+# * Overview
 #
 # This short Nagios/Icinga plugin code shows  how to build a simple plugin to monitor Pure Storage FlashArrays.
 # The Pure Storage Python REST Client is used to query the FlashArray performance counters. An optional parameter
 # allow to check a single volume instead than the whole flasharray
 # Plugin leverages the remarkably helpful nagiosplugin library by Christian Kauhaus.
 #
-## Installation
+# * Installation
 #
 # The script should be copied to the Nagios plugins directory on the machine hosting the Nagios server or the NRPE
 # for example the /usr/lib/nagios/plugins folder.
 # Change the execution rights of the program to allow the execution to 'all' (usually chmod 0755).
 #
-## Dependencies
+# * Dependencies
 #
 #  nagiosplugin      helper Python class library for Nagios plugins by Christian Kauhaus (http://pythonhosted.org/nagiosplugin)
 #  purestorage       Pure Storage Python REST Client (https://github.com/purestorage/rest-client)
