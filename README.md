@@ -23,7 +23,7 @@ The module is comprised of the Python checker utility and the related XML templa
 3. From the Zabbix web UI import the zbx-pure-fb-template.xml
 4. Navigate to the Configuration > Hosts view and add a new host for the FlashBlade array you want to monito. Be sure you enter the array IP address as the Agent Interfaces IP address.
 
-![zabbix-cfg01](images/zbx-config01.png)
+![zabbix-fb-cfg01](images/zbx-fb-cfg01.png)
 
 Wait a minute or two and then check the items for the specified array have their values properly populated. 
 
