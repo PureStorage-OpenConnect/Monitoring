@@ -10,7 +10,21 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 
 ## Zabbix
 
-* [Pure-FA_zabbix.py](https://github.com/PureStorage-OpenConnect/Monitoring/blob/master/Pure-FA_zabbix.py) Short example that illustrates how to build a simple extension to the Zabbix agent to monitor a Pure Storage FlashArray.
+Zabbix monitoring extension for Pure Storage Flashblade.
+This module is provided in a form of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array by using the Zabbix trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
+
+### Installation
+
+The module is comprised of the Python checker utility and the related XML template file, which contains all the definitions for the items returned by the checker and some basic graphs.
+
+1. On the Zabbix server, copy the pure_fb_check.py script into the Zabbix external script directory (usually /usr/lib/zabbix/externalscripts/)
+2. Change the script ownership to the zabbix user and the execution permissions
+   chown zabbix:zabbix /usr/lib/zabbix/externalscripts/pure_fb_check.py; chmod ug+x /usr/lib/zabbix/externalscripts/pure_fb_check.py
+3. From the Zabbix web UI import the zbx-pure-fb-template.xml
+4. Navigate to the Configuration > Hosts view and add a new host for the FlashBlade array you want to monito. Be sure you enter the array IP address as the Agent Interfaces IP address.
+
+Wait a minute or two and then check the items for the specified array have their values properly populated. 
+
 
 ## Nagios/Icinga2
 
