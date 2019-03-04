@@ -16,11 +16,12 @@ This module is provided in a form of a Zabbix external checker that retrieves th
 ### Installation
 
 The module is comprised of the Python checker utility and the related XML template file, which contains all the definitions for the items returned by the checker and some basic graphs.
+
 1. Python 3 is required on the Zabbix server, along with the Pure Storage FlashBlade python client library purity_fb and the python Zabbix module py-zabbix. These can be installed by running pip3 with the provided requirements.txt file
 
-sudo -H pip3 install -r requirements.txt
+    sudo -H pip3 install -r requirements.txt
 
-Once installed, the Pure Storage FlashBlade python client needs to be patched in order to properly use the connection timeout parameters:
+  Once installed, the Pure Storage FlashBlade python client needs to be patched in order to properly use the connection timeout parameters:
 
     a. change dir to the local python3 library modules where the purity_fb client is installed
        cd /usr/local/lib/python3.<X>/dist-packages/purity_fb
