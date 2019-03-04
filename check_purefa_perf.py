@@ -119,10 +119,10 @@ def parse_args():
     argp.add_argument('--vol', help="FA volme. If omitted the whole FA performance counters are checked")
     argp.add_argument('--tw', '--ttot-warning', metavar='RANGE[,RANGE,...]',
                       type=nagiosplugin.MultiArg, default='',
-                      help="positional thresholds: write_latency, read_latenxy, write_bandwidth, read_bandwidth, write_iops, read_iops")
+                      help="positional thresholds: write_latency, read_latency, write_bandwidth, read_bandwidth, write_iops, read_iops")
     argp.add_argument('--tc', '--ttot-critical', metavar='RANGE[,RANGE,...]',
                       type=nagiosplugin.MultiArg, default='',
-                      help="positional thresholds: write_latency, read_latenxy, write_bandwidth, read_bandwidth, write_iops, read_iops")
+                      help="positional thresholds: write_latency, read_latency, write_bandwidth, read_bandwidth, write_iops, read_iops")
     argp.add_argument('-v', '--verbose', action='count', default=0,
                       help='increase output verbosity (use up to 3 times)')
     argp.add_argument('-t', '--timeout', default=30,
