@@ -12,11 +12,11 @@ A repository of plugins and extensions to monitor Pure Storage FlashArrays using
 
 ### Zabbix monitoring extension for Pure Storage Flashblade.
 
-This module is provided in a form of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array by using the Zabbix trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
+This [module](zabbix/) is provided in a form of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array by using the Zabbix trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
 
 ### Installation
 
-The module is comprised of the Python checker utility and the related XML template file, which contains all the definitions for the items returned by the checker and some basic graphs.
+The mpodule is comprised of the Python checker utility and the related XML template file, which contains all the definitions for the items returned by the checker and some basic graphs.
 
 1. Python 3 is required on the Zabbix server, along with the Pure Storage FlashBlade python client library purity_fb and the python Zabbix module py-zabbix. These can be installed by running pip3 with the provided requirements.txt file
 
