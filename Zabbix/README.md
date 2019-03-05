@@ -2,7 +2,7 @@
 
 ### Zabbix monitoring extension for Pure Storage Flashblade.
 
-This module is provided in a shape of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array by using the Zabbix trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
+This module is provided in a shape of a Zabbix external checker that retrieves the performance and capacity metrics for the FlashBlade array and returns these back to the Zabbix server the by the trapper functionality. FlashBlade filesystems and object buckets are dinamically discovered and updated by the means of LLD (low-level discovery).
 
 ### Installation
 
@@ -28,4 +28,8 @@ The module is comprised of the Python checker utility and the related XML templa
 
 ![zabbix-fb-cfg01](../images/zbx-fb-cfg01.png)
 
-Wait a minute or two and then check the items for the specified array have their values properly populated. 
+Wait a minute or two and then check the items for the specified array have their values properly populated.
+
+![zabbix-fb-cfg02](../images/zbx-fb-cfg02.png)
+
+Since the probe module is implemented as a Zabbix external check, the result of each execution can be monitored as well. The checker always return the string "Done" in case of success or "Error" in case it faces any issue during the execution. All the exceptions are catched and logged int the /var/log/pure_fb_check.log file.
