@@ -329,11 +329,11 @@ def main():
             zbx_metrics = next(z)
 
         if zbx_lld_data is not None:
-            # Return JSON formatted LLD buckets data to Zabbix external check
+            # Return JSON formatted LLD data to Zabbix external check
             print(json.dumps(zbx_lld_data, sort_keys=True, indent=4))
         else:
             # Remember, need to return a string to Zabbix as we are in an external checker
-            print("Done!")
+            print("Done")
 
         if (args.debug):
             for zm in zbx_metrics:
