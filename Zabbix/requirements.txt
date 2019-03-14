@@ -1,2 +1,2 @@
-purity_fb=1.6
+purity_fb==1.6
 py-zabbix
