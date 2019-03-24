@@ -28,8 +28,14 @@ The module is comprised of the Python checker utility and the related XML templa
 
 ![zabbix-fb-cfg01](../images/zbx-fb-cfg01.png)
 
+
 Wait a minute or two and then check the items for the specified array have their values properly populated.
 
 ![zabbix-fb-cfg02](../images/zbx-fb-cfg02.png)
 
+
 Since the probe module is implemented as a Zabbix external check, the result of each execution can be monitored as well. The checker always return the string "Done" in case of success or "Error" in case it faces any issue during the execution. All the exceptions are catched and logged int the /var/log/pure_fb_check.log file.
+
+If you experience errors with sampling data appear too frequently, then you may want to change the timeout and retry parameters for establishing the session to the target FlashBlade. You can modify the connection timeout, the response timeout and the number of retries by simply specifying any of those in the template items GUI panel for the 'Capacity checker' or the 'Performace checker' of the 'Pure FlashBlade' template.
+
+![zabbix-fb-cfg03](../images/zbx-fb-cfg03.png)

@@ -4,25 +4,23 @@
 # *Overview
 #
 # This short Zabbix external check code shows how to monitor Pure Storage FlashBlade systems.
-# The Pure Storage Python REST Client is used to query the FlashBlade occupancy and performance indicators.
-# A basic use of generators is introduced in the attempt to keep the code a bit more cleaner and condensed, although not
+# The Pure Storage Python REST Client is used to query the FlashBlade occupancy and performcnce indicators.
+# A simplistic use of generators is introduced in the attempt to keep code a bit more cleaner and condensed, athough not
 # strictly required.
 #
 # *Installation
 #
-# The script should be copied to the Zabbix external check scripts directory on the Zabbix server.
+# The script should be copied to the Zabbix external check scripts directory on the
 # Change the execution rights of the program to allow the execution to 'zabbix' (usually chmod 0755).
 #
 # *Dependencies
 #
-# purity_fb = 1.6       Pure Storage Python REST Client for FlashBlade (https://github.com/purestorage/purity_fb_python_client)
-# py-zabbix             Python Zabbix module
-#
+# purity_fb         Pure Storage Python REST Client for FlashBlade (https://github.com/purestorage/purity_fb_python_client)
 
 __author__ = "Eugenio Grosso"
 __copyright__ = "Copyright 2019, Pure Storage Inc."
 __license__ = "Apache v2.0"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Eugenio Grosso"
 __email__ = "geneg@purestorage.com"
 __status__ = "Production"
@@ -37,13 +35,22 @@ __status__ = "Production"
 
        -t/--apitoken APITOKEN         the api_token to autenticate with FB
 
-       -z--zabbix ZABBIX              the Zabbix server hostname or ip address
+       -z/--zabbix ZABBIX             the Zabbix server hostname or ip address
 
        -m/--metric {aperf,aspace,bspace,fspace}      array metrics type to be returned:
                                       specify 'aperf' to collect array global performance metrics,
                                               'aspace' to collect array global used space metrics,
                                               'bspace' to collect space used per bucket,
                                               'fspace' to collect space used per filesystem
+
+   and the following optional arguments control the connection timeouts and retry to the target FlashBlade
+
+       --ctimeo CTIMEO                FB connection timeout. Defines the timeout in seconds to connect to the FB REST server
+
+       --rtimeo RTIMEO                FB request timeout. Defines the timeout in seconds for a request to the FB REST server 
+
+       --retries RETRIES              FB request retries. Defines the number of retries after which a request to the FB REST
+                                      server is considered lost.
 
 
    The -d/--debug flag controls whether the metrics should be printed to standard output or delivered to the Zabbix
@@ -260,10 +267,10 @@ def init_logger():
     return logger
 
 
-def connect_fb(endpoint, apitoken):
+def connect_fb(endpoint, apitoken, ctimeo=2.0, rtimeo=5.0, retries=3):
     """Establish connection with FlashBlade."""
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    fb = PurityFb(endpoint, conn_timeo=2.0, read_timeo=5.0, retries=1)
+    fb = PurityFb(endpoint, conn_timeo=ctimeo, read_timeo=rtimeo, retries=retries)
     fb.disable_verify_ssl()
     fb.login(apitoken)
     return fb
@@ -295,6 +302,24 @@ def parse_args():
                       required=False,
                       action='store_true',
                       help="Print return values to standard output instead than actually send them to Zabbix server")
+    argp.add_argument('--ctimeo',
+                      type=float,
+                      required=False,
+                      action='store',
+                      default=10.0,
+                      help="FlashBlade REST server connection timeo")
+    argp.add_argument('--rtimeo',
+                      type=float,
+                      required=False,
+                      action='store',
+                      default=30.0,
+                      help="FlashBlade REST server response timeout")
+    argp.add_argument('--retries',
+                      type=int,
+                      required=False,
+                      action='store',
+                      default=3,
+                      help="FlashBlade REST server request retries")
     return argp.parse_args()
 
 
@@ -304,7 +329,7 @@ def main():
     args = parse_args()
 
     try:
-        flashblade = connect_fb(args.endpoint, args.apitoken)
+        flashblade = connect_fb(args.endpoint, args.apitoken, args.ctimeo, args.rtimeo, args.retries)
         if flashblade is None:
             print("Error")
             return
@@ -329,11 +354,11 @@ def main():
             zbx_metrics = next(z)
 
         if zbx_lld_data is not None:
-            # Return JSON formatted LLD data to Zabbix external check
+            # Return JSON formatted LLD buckets data to Zabbix external check
             print(json.dumps(zbx_lld_data, sort_keys=True, indent=4))
         else:
             # Remember, need to return a string to Zabbix as we are in an external checker
-            print("Done")
+            print("Done!")
 
         if (args.debug):
             for zm in zbx_metrics:
