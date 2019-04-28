@@ -186,40 +186,12 @@ class PureZabbixFBChecker:
     def array_perf(self):
         """Get performance metrics from FlashBlade."""
 
-        host = self.name
-        fbinfo = self.fb.arrays.list_arrays_performance()
-        pinfo = fbinfo.items[0]
         metrics = []
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.bytes_per_op", pinfo.bytes_per_op))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.bytes_per_read", pinfo.bytes_per_read))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.bytes_per_write", pinfo.bytes_per_write))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.input_per_sec", pinfo.input_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.others_per_sec", pinfo.others_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.output_per_sec", pinfo.output_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.read_bytes_per_sec", pinfo.read_bytes_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.reads_per_sec", pinfo.reads_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.usec_per_other_op", pinfo.usec_per_other_op))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.usec_per_read_op", pinfo.usec_per_read_op))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.usec_per_write_op", pinfo.usec_per_write_op))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.write_bytes_per_sec", pinfo.write_bytes_per_sec))
-        metrics.append(ZabbixMetric(
-            host, "purestorage.fb.array.writes_per_sec", pinfo.writes_per_sec))
-
-        for proto in ['http', 'nfs', 's3', 'smb']:
-            fbinfo = self.fb.arrays.list_arrays_performance(protocol=proto)
-            pinfo = fbinfo.items[0]
+        for proto in ['array', 'http', 'nfs', 's3', 'smb']:
+            if proto == 'array':
+                pinfo = self.fb.arrays.list_arrays_performance().items[0]
+            else:
+                pinfo = self.fb.arrays.list_arrays_performance(protocol=proto).items[0]
             metrics.append(ZabbixMetric(host, "purestorage.fb." +
                                         proto + ".bytes_per_op", pinfo.bytes_per_op))
             metrics.append(ZabbixMetric(host, "purestorage.fb." +
