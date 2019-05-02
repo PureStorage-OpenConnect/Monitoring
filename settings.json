@@ -1,7 +1,7 @@
 {
     "id": "Monitoring",
     "filter": "devops",
-    "image": "http://code.purestorage.com/images/Monitoring.png",
+    "image": "https://code.purestorage.com/images/Monitoring.png",
     "featured": 1,
     "priority": 1
 }
