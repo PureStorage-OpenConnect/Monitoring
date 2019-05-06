@@ -186,6 +186,7 @@ class PureZabbixFBChecker:
     def array_perf(self):
         """Get performance metrics from FlashBlade."""
 
+        host = self.name
         metrics = []
         for proto in ['array', 'http', 'nfs', 's3', 'smb']:
             if proto == 'array':
