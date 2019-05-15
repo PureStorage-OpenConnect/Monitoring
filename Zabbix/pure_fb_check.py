@@ -244,6 +244,7 @@ def connect_fb(endpoint, apitoken, ctimeo=2.0, rtimeo=5.0, retries=3):
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     fb = PurityFb(endpoint, conn_timeo=ctimeo, read_timeo=rtimeo, retries=retries)
     fb.disable_verify_ssl()
+    fb._api_client.user_agent = 'Purity_FB_Zabbix_plugin/1.0'
     fb.login(apitoken)
     return fb
 
