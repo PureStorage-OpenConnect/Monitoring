@@ -1,5 +1,6 @@
 {
     "id": "Monitoring",
+    "name": "Monitoring Tools Integrations",
     "filter": "devops",
     "image": "https://code.purestorage.com/images/Monitoring.png",
     "featured": 1,
