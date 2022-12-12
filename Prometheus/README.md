@@ -1,1 +1,1 @@
-Pure Storage Prometheus exporter is now End of Life and has been replaced by OpenMetrics Exporters for [FlashArray](https://github.com/PureStorage-OpenConnect/pure-fa-openmetrics-exporter) and [FlashBlade](https://github.com/PureStorage-OpenConnect/pure-fb-openmetrics-exporter).
+Pure Storage Prometheus exporter is now **End of Life** and has been replaced by OpenMetrics Exporters for [FlashArray](https://github.com/PureStorage-OpenConnect/pure-fa-openmetrics-exporter) and [FlashBlade](https://github.com/PureStorage-OpenConnect/pure-fb-openmetrics-exporter).
