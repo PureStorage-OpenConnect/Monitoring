@@ -1,3 +1,5 @@
+# THIS INTEGRATION IS DEPRECATED IN FAVOR OF THE OPENMETRICS EXPORTER
+
 ## Zabbix
 
 ### Zabbix monitoring extension for Pure Storage Flashblade.
