@@ -1,5 +1,5 @@
 # DEPRECATED
-This plugin is deprectaed in favor of the OpenMetrics Exporters.
+This plugin is deprectaed in favor of the [OpenMetrics Exporters](https://github.com/PureStorage-OpenConnect/openmetrics-exporters).
 No further support or development will take place for this plugin.
 
 # PRTG sensors
