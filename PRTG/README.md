@@ -1,3 +1,7 @@
+# DEPRECATED
+This plugin is deprectaed in favor of the OpenMetrics Exporters.
+No further support or development will take place for this plugin.
+
 # PRTG sensors
 
 * [PRTG_PureFA-HW.ps1](PRTG_PureFA-HW.ps1) Simple PRTG custom sensor for monitoring Pure Storage FlashArrays hardware components.
